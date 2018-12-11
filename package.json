@@ -1,0 +1,13 @@
+{
+  "name": "blocipedia-node",
+  "version": "1.0.0",
+  "description": "Wikipedia style web application where users can create and share on wiki and upgrade to premium account",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arata Kagan",
+  "license": "ISC",
+  "entry point": "src/server.js",
+  "test command": "export NODE_ENV=test && jasmine"
+}
