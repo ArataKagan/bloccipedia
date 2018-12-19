@@ -2,7 +2,7 @@
   "name": "blocipedia-node",
   "version": "1.0.0",
   "description": "Wikipedia style web application where users can create and share on wiki and upgrade to premium account",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "export NODE_ENV=test && jasmine",
     "start": "node src/server.js"
@@ -17,6 +17,7 @@
     "request": "^2.83.0"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.0",
