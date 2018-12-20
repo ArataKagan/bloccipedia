@@ -14,7 +14,7 @@ module.exports = {
         })
         .then((user) => {
             console.log("Right after new user was created");
-            sgMail.setApiKey(process.env.SendGrid_API_KEY);
+            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
             const msg = {
                 to: user.email,
                 from: 'aratakagan@gmail.com',
