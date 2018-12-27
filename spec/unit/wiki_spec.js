@@ -108,7 +108,7 @@ describe("Wiki", () => {
             .then((newWiki) => {
                 // expect(this.wiki.userId).toBe(this.user.id);
 
-                this.user.setWiki(newWiki)
+                this.user.setWikis(newWiki)
                 .then((wiki) => {
                     expect(wiki.userId).toBe(newWiki.id);
                     done();
@@ -117,11 +117,11 @@ describe("Wiki", () => {
         });
     });
 
-    describe("#getWiki()", () => {
+    describe("#getWikis()", () => {
         it("should return the associated wiki", (done) => {
-            this.user.getWiki()
+            this.user.getWikis()
             .then((associatedWiki) => {
-                expect(associatedWiki.title).toBe("Food Wiki");
+                expect(associatedWiki[0].title).toBe("Food Wiki");
                 done();
             });
         });
