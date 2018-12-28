@@ -44,4 +44,43 @@ describe("routes : wikis", () => {
             });
         });
     });
+
+    describe("GET /wikis/new", () => {
+        it("should render a new wiki form", (done) => {
+            request.get(`${base}new`, (err, res, body) => {
+                expect(err).toBeNull();
+                expect(body).toContain("New Wiki");
+                done();
+            });
+        });
+    });
+
+    describe("POST /wikis/create", () => {
+        const options = {
+            url: `${base}create`,
+            form: {
+                title: "Planets",
+                body: "Earth, Jupitar, Mars"
+            }
+        };
+
+        it("should create a new wiki and redirect", (done) => {
+            console.log("before the post is created");
+            request.post(options,
+                (err, res, body) => {
+                    Wiki.findOne({where: {title: "About Planet"}})
+                    .then((wiki) => {
+                        expect(res.statusCode).toBe(303);
+                        expect(wiki.title).toBe("About Planet");
+                        expect(wiki.body).toBe("Earth");
+                        console.log("wiki was found and matched")
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    });
+                })
+        })
+    })
 });
