@@ -68,11 +68,11 @@ describe("routes : wikis", () => {
             console.log("before the post is created");
             request.post(options,
                 (err, res, body) => {
-                    Wiki.findOne({where: {title: "About Planet"}})
+                    Wiki.findOne({where: {title: "Planets"}})
                     .then((wiki) => {
                         expect(res.statusCode).toBe(303);
-                        expect(wiki.title).toBe("About Planet");
-                        expect(wiki.body).toBe("Earth");
+                        expect(wiki.title).toBe("Planets");
+                        expect(wiki.body).toBe("Earth, Jupitar, Mars");
                         console.log("wiki was found and matched")
                         done();
                     })
@@ -82,5 +82,17 @@ describe("routes : wikis", () => {
                     });
                 })
         })
-    })
+    });
+
+    describe("GET /wikis/:id", () => {
+        it("should render a view with the selected wiki", (done) => {
+            request.get(`${base}/${this.wiki.id}`, (err, res, body) => {
+                expect(err).toBeNull();
+                expect(body).toContain("Earth, Marse, Pluto");
+                done();
+            });
+        });
+    });
+
+
 });

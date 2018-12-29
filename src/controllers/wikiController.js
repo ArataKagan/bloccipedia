@@ -1,4 +1,4 @@
-const wikiQueries = require("../db/queries.wikis.js")
+const wikiQueries = require("../db/queries.wikis.js");
 
 module.exports = {
     index(req, res, next){
@@ -6,7 +6,7 @@ module.exports = {
             if(err){
                 res.redirect(500, "static/index");
             } else {
-                res.render("wikis/index", {wikis});
+                res.render("wikis/wiki", {wikis});
             }
         })
     },
@@ -21,17 +21,33 @@ module.exports = {
             title: req.body.title,
             body: req.body.body,
             private: false,
-            userId: req.user.id
+            userId: 1
         };
+
         wikiQueries.addWiki(newWiki, (err, wiki) => {
             if(err){
+                console.log("error from the wikiController")
                 res.redirect(500, "/wikis/new");
             } else {
                 res.redirect(303, `/wikis/${wiki.id}`);
             }
         });
+    },
 
-
+    show(req, res, next){
+        wikiQueries.getWiki(req.params.id, (err, wiki) => {
+            if(err || wiki == null){
+                res.redirect(404, "/");
+            } else {
+                res.redirect("wikis/show", {wiki})
+            }
+        });
     }
+
+
+
+
+
+
 
 }

@@ -12,9 +12,25 @@ module.exports = {
     },
 
     addWiki(newWiki, callback){
-        return Wiki.create(newWiki)
+        return Wiki.create({
+            title: newWiki.title,
+            body: newWiki.body,
+            private: newWiki.private,
+            userId: newWiki.userId
+        })
         .then((wiki) => {
             console.log("new wiki was created from inside pf queries.wikis");
+            callback(null, wiki);
+        })
+        .catch((err) => {
+            console.log("wiki wasn't created from queries.wikis folder");
+            callback(err);
+        })
+    },
+
+    getWiki(id, callback){
+        return Wiki.findById(id)
+        .then((wiki) => {
             callback(null, wiki);
         })
         .catch((err) => {
