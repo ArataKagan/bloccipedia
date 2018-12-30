@@ -9,6 +9,7 @@
 
             <h1>Wikis</h1>
             <ul class="list-group">
+                <button href="/wikis/new" class="btn btn-warning">Create Wiki</button>
                 <% wikis.forEach((wiki) => { %>
                     <li class="list-group-item">
                         <a href="/wikis/<%= wiki.id %>"><%= wiki.title %></a>

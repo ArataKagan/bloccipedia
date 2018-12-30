@@ -21,7 +21,7 @@ module.exports = {
             title: req.body.title,
             body: req.body.body,
             private: false,
-            userId: 1
+            // userId: 1
         };
 
         wikiQueries.addWiki(newWiki, (err, wiki) => {
@@ -37,17 +37,42 @@ module.exports = {
     show(req, res, next){
         wikiQueries.getWiki(req.params.id, (err, wiki) => {
             if(err || wiki == null){
-                res.redirect(404, "/");
+                res.redirect(404, "/wikis");
             } else {
-                res.redirect("wikis/show", {wiki})
+                res.render("wikis/show", {wiki});
+            }
+        });
+    },
+
+    destroy(req, res, next){
+        wikiQueries.deleteWiki(req.params.id, (err, deletedRecordsCount) => {
+            if(err){
+                res.redirect(500, `/wikis/${req.params.id}`);
+            } else {
+                res.redirect(303, `/wikis`);
+            }
+        });
+    },
+
+    edit(req, res, next){
+        wikiQueries.getWiki(req.params.id, (err, wiki) => {
+            if(err || wiki == null){
+                res.redirect(404, "/wikis");
+            } else {
+                res.render("wikis/edit", {wiki});
+            }
+        });
+    },
+
+    update(req, res, next){
+        wikiQueries.updateWiki(req.params.id, req.body, (err, wiki) => {
+            if(err || wiki == null){
+                res.redirect(404, `/wikis/${req.params.id}/edit`);
+            } else {
+                res.redirect(`/wikis/${wiki.id}`);
             }
         });
     }
-
-
-
-
-
 
 
 }

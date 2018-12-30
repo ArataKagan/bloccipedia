@@ -9,7 +9,6 @@ describe("routes : wikis", () => {
 
     beforeEach((done) => {
         this.wiki;
-        this.user;
 
         sequelize.sync({force: true}).then((res) => {
             User.create({
@@ -22,8 +21,7 @@ describe("routes : wikis", () => {
                 Wiki.create({
                     title: "The Name of Planet",
                     body: "Earth, Marse, Pluto",
-                    private: false,
-                    userId: this.user.id
+                    private: false
                 })
                 .then((wiki) => {
                     this.wiki = wiki;
@@ -59,7 +57,7 @@ describe("routes : wikis", () => {
         const options = {
             url: `${base}create`,
             form: {
-                title: "Planets",
+                title: "Planets Series",
                 body: "Earth, Jupitar, Mars"
             }
         };
@@ -68,10 +66,10 @@ describe("routes : wikis", () => {
             console.log("before the post is created");
             request.post(options,
                 (err, res, body) => {
-                    Wiki.findOne({where: {title: "Planets"}})
+                    Wiki.findOne({where: {title: "Planets Series"}})
                     .then((wiki) => {
                         expect(res.statusCode).toBe(303);
-                        expect(wiki.title).toBe("Planets");
+                        expect(wiki.title).toBe("Planets Series");
                         expect(wiki.body).toBe("Earth, Jupitar, Mars");
                         console.log("wiki was found and matched")
                         done();
@@ -86,10 +84,58 @@ describe("routes : wikis", () => {
 
     describe("GET /wikis/:id", () => {
         it("should render a view with the selected wiki", (done) => {
-            request.get(`${base}/${this.wiki.id}`, (err, res, body) => {
+            request.get(`${base}${this.wiki.id}`, (err, res, body) => {
                 expect(err).toBeNull();
                 expect(body).toContain("Earth, Marse, Pluto");
                 done();
+            });
+        });
+    });
+
+    describe("POST /wikis/:id/destroy", () => {
+        it("should delete the wiki with the associated ID", (done) => {
+            expect(this.wiki.id).toBe(1);
+            request.post(`${base}${this.wiki.id}/destroy`, (err, res, body) => {
+                Wiki.findById(1)
+                .then((wiki) => {
+                    expect(err).toBeNull();
+                    expect(wiki).toBeNull();
+                    done();
+                })
+            });
+        });
+    });
+
+    describe("GET /wikis/:id/edit", () => {
+        it("should render a view with an edit wiki form", (done) => {
+            request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
+                expect(err).toBeNull();
+                expect(body).toContain("Edit Wiki");
+                expect(body).toContain("The Name of Planet");
+                done();
+            });
+        });
+    });
+
+    describe("POST /wikis/:id/update", () => {
+        it("should update the wiki with the given value", (done) => {
+            const options = {
+                url: `${base}${this.wiki.id}/update`,
+                form: {
+                    title: "Amusement parks around the world",
+                    body: "Disney land, univeral studio"
+                }
+            };
+
+            request.post(options, (err, res, body) => {
+                expect(err).toBeNull();
+                Wiki.findOne({
+                    where: { id: this.wiki.id }
+                })
+                .then((wiki) => {
+                    expect(wiki.title).toBe("Amusement parks around the world");
+                    done();
+                });
             });
         });
     });
