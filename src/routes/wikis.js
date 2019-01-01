@@ -8,7 +8,7 @@ const wikiController = require("../controllers/wikiController");
 router.get("/wikis", wikiController.index);
 router.get("/wikis/new", wikiController.new);
 router.post("/wikis/create", 
-    // helper.ensureAuthenticated,
+    helper.ensureAuthenticated,
     validation.validateWikis, 
     wikiController.create);
 

@@ -21,7 +21,7 @@ module.exports = {
             title: req.body.title,
             body: req.body.body,
             private: false,
-            // userId: 1
+            userId: req.user.id
         };
 
         wikiQueries.addWiki(newWiki, (err, wiki) => {
