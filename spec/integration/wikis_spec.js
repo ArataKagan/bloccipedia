@@ -161,10 +161,105 @@ describe("routes : wikis", () => {
             });
         });
 
-    })
+    });
 
+    // admin context
+    describe("Admin user performing CRUD actions for wiki", () => {
+        beforeEach((done) => {
+            this.wiki;
+            this.user;
+            
+            sequelize.sync({force: true}).then((res) => {
+                User.create({
+                    name: "Test Kagan",
+                    email: "test@test.com",
+                    password: "testtest02",
+                    role: 0 //standard user
+                })
+                .then((user) => {
+                    this.user = user;
+                    Wiki.create({
+                        title: "Religion in the world",
+                        body: "Buddhism, Catlic, Hindhu",
+                        private: false,
+                        userId: this.user.id
+                    })
+                    .then((wiki) => {
+                        this.wiki = wiki;
+                        done();
+                    });
+                });
+            });
+        });
 
-   
+        describe("Admin user delete wiki created by other user", () => {
+            this.user;
+            User.create({
+                name: "Random Kagan",
+                email: "random@test.com",
+                password: "abcdefgh",
+                role: 2 // admin user
+            })
+            .then((user) => {
+                this.user = user;
+                describe("GET /wikis/:id", () => {
+                    it("should render a view with the selected wiki", (done) => {
+                        request.get(`${base}${this.wiki.id}`, (err, res, body) => {
+                            expect(err).toBeNull();
+                            expect(body).toContain("Buddhism, Catlic, Hindhu");
+                            done();
+                        });
+                    });
+                });
+            
+                describe("POST /wikis/:id/destroy", () => {
+                    it("should delete the wiki with the associated ID", (done) => {
+                        expect(this.wiki.id).toBe(1);
+                        request.post(`${base}${this.wiki.id}/destroy`, (err, res, body) => {
+                            Wiki.findById(1)
+                            .then((wiki) => {
+                                expect(err).toBeNull();
+                                expect(wiki).toBeNull();
+                                done();
+                            })
+                        });
+                    });
+                });
 
-
+                describe("GET /wikis/:id/edit", () => {
+                    it("should render a view with an edit wiki form", (done) => {
+                        request.get(`${base}${this.wiki.id}/edit`, (err, res, body) => {
+                            expect(err).toBeNull();
+                            expect(body).toContain("Edit Wiki");
+                            expect(body).toContain("Buddhism, Catlic, Hindhu");
+                            done();
+                        });
+                    });
+                });
+            
+                describe("POST /wikis/:id/update", () => {
+                    it("should update the wiki with the given value", (done) => {
+                        const options = {
+                            url: `${base}${this.wiki.id}/update`,
+                            form: {
+                                title: "Religion in the world",
+                                body: "Buddhism, Catlic, Hindhu, Islam"
+                            }
+                        };
+            
+                        request.post(options, (err, res, body) => {
+                            expect(err).toBeNull();
+                            Wiki.findOne({
+                                where: { id: this.wiki.id }
+                            })
+                            .then((wiki) => {
+                                expect(wiki.body).toBe("Buddhism, Catlic, Hindhu, Islam");
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 });
