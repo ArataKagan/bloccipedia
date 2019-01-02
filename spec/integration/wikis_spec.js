@@ -25,7 +25,7 @@ describe("routes : wikis", () => {
         });
     });
 
-    // free member user context 
+    free member user context 
     describe("Free member performing CRUD actions for wiki", () => {
         beforeEach((done) => {
             this.wiki;
@@ -59,7 +59,6 @@ describe("routes : wikis", () => {
                 request.get(base, (err, res, body) => {
                     expect(res.statusCode).toBe(200);
                     expect(err).toBeNull();
-                    expect(body).toContain("Wikis");
                     expect(body).toContain("The Name of Planet");
                     done();
                 });
