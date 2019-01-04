@@ -40,7 +40,7 @@ module.exports = {
                 return callback("User not found");
             } else {
                 console.log(user);
-                return user.update({role : 2})
+                return user.update({role : 1})
                 .then(() => {
                     callback(null, user);
                 })
@@ -48,5 +48,22 @@ module.exports = {
                     callback(err);
                 });
             }});
-        }
+    },
+
+    downgradeUser(id, callback){
+        return User.findById(id)
+        .then((user) => {
+            if(!user){
+                return callback("User not found");
+            } else {
+                console.log(user);
+                return user.update({role : 0})
+                .then(() => {
+                    callback(null, user);
+                })
+                .catch((err) => {
+                    callback(err);
+                });
+        }});
+    }
 }

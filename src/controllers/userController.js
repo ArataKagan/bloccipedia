@@ -72,5 +72,23 @@ module.exports = {
                 res.redirect("/");
             }
         });
+    },
+
+    downgradeForm(req, res, next){
+        res.render("users/downgrade");
+    },
+
+    downgrade(req, res, next){
+        userQueries.downgradeUser(req.params.id, (err, user) => {
+            if(err){
+                req.flash("error", err);
+                res.redirect(`/users/${req.params.id}/upgrade`);
+            } else {
+                req.flash("notice", "You've successfully downgraded to standard account");
+                res.redirect("/");
+            }
+        });
     }
+
+
 }
