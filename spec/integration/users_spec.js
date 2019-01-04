@@ -87,6 +87,22 @@ describe("routes : users", () => {
         });
     });
 
+    describe("GET /users/upgrade", () => {
+        it("should render a view with a upgrade form", (done) => {
+            request.get(`${base}upgrade`, (err, res, body) => {
+                expect(err).toBeNull();
+                expect(body).toContain("Upgrade to Premium Account");
+                done();
+            });
+        });
+    });
+
+    // describe("POST /users/upgrade", () => {
+    //     it("should change a user's role status to 2", (done) => {
+            
+    //     })
+    // })
+
 
 
 

@@ -2,6 +2,7 @@ const User = require("./models").User;
 const bcrypt = require("bcryptjs");
 const sgMail = require('@sendgrid/mail');
 
+
 module.exports = {
     createUser(newUser, callback){
         const salt = bcrypt.genSaltSync();
@@ -28,6 +29,22 @@ module.exports = {
         })
         .catch((err) => {
             console.log("New user wasn't created");
+            callback(err);
+        })
+    },
+
+    upgradeUser(req, callback){
+        return User.findById(req.user.id)
+        .then((user) => {
+            User.update(
+                {role : 2}
+            )
+        })
+        .then(() => {
+            console.log("successfully upgraded from queries.users.js");
+            callback(null, user);
+        })
+        .catch((err) => {
             callback(err);
         })
     }
