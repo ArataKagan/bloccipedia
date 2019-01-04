@@ -97,11 +97,11 @@ describe("routes : users", () => {
         });
     });
 
-    // describe("POST /users/upgrade", () => {
-    //     it("should change a user's role status to 2", (done) => {
+    describe("POST /users/upgrade", () => {
+        it("should change a user's role status to 2", (done) => {
             
-    //     })
-    // })
+        })
+    })
 
 
 

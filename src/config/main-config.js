@@ -27,7 +27,7 @@ module.exports = {
             res.locals.currentUser = req.user;
             next();
         });
-        app.use(express.static(path.join(__dirname, "..", "assets")));
+        app.use(express.static(path.join(__dirname, "..", "assets"))); //serves static assets inside of the assets directory
         app.use(logger('dev'));
     }
 };

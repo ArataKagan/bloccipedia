@@ -33,19 +33,20 @@ module.exports = {
         })
     },
 
-    upgradeUser(req, callback){
-        return User.findById(req.user.id)
+    upgradeUser(id, callback){
+        return User.findById(id)
         .then((user) => {
-            User.update(
-                {role : 2}
-            )
-        })
-        .then(() => {
-            console.log("successfully upgraded from queries.users.js");
-            callback(null, user);
-        })
-        .catch((err) => {
-            callback(err);
-        })
-    }
+            if(!user){ 
+                return callback("User not found");
+            } else {
+                console.log(user);
+                return user.update({role : 2})
+                .then(() => {
+                    callback(null, user);
+                })
+                .catch((err) => {
+                    callback(err);
+                });
+            }});
+        }
 }

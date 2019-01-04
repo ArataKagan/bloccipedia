@@ -37,6 +37,7 @@ module.exports = {
                 req.flash("notice", "Sign in failed. Please try again.");
                 res.redirect("/users/sign_in");
             } else {
+                console.log(res.user);
                 req.flash("notice", "You've successfully signed in!");
                 res.redirect("/");
             }
@@ -56,15 +57,15 @@ module.exports = {
     upgrade(req, res, next){
         const token = req.body.stripeToken;
         const charge = stripe.charges.create({
-            amount: 60.0,
+            amount: 15.00,
             currency: 'usd',
             description: 'premium account fee',
             source: token,
           });
-        userQueries.upgradeUser(req, (err, user) => {
+        userQueries.upgradeUser(req.params.id, (err, user) => {
             if(err){
                 req.flash("error", err);
-                res.redirect("/users/upgrade");
+                res.redirect(`/users/${req.params.id}/upgrade`);
             } else {
                 console.log("successfully upgraded");
                 req.flash("notice", "You've successfully upgraded to premium account!");
