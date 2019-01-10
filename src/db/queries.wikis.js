@@ -1,9 +1,17 @@
 const Wiki = require("./models").Wiki;
+const Collaboration = require("./models").Collaboration;
+const User = require("./models").User;
 const Authorizer = require("../policies/wiki");
 
 module.exports = {
     getAllWikis(callback){
-        return Wiki.all()
+        return Wiki.all({
+            include: [
+                {model: Collaboration, as: "collaborations", include: [
+                    {model: User }
+                ]}
+            ]
+        })
         .then((wikis) => {
             callback(null, wikis);
         })
@@ -30,7 +38,13 @@ module.exports = {
     },
 
     getWiki(id, callback){
-        return Wiki.findById(id)
+        return Wiki.findById(id, {
+            include: [
+                {model: Collaboration, as: "collaborations", include: [
+                    {model: User }
+                ]}
+            ]
+        })
         .then((wiki) => {
             callback(null, wiki);
         })

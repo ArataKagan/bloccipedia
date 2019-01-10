@@ -20,6 +20,18 @@
                     <textarea type="text" class="form-control" name="body" aria-describedby="bodyHelp" rows="3" placeholder="Enter Body"></textarea>
                     <small class="text-muted" id="bodyHelp">body must be 10 or more characters in length</small>
                 </div>
+                <div id="addCollaborator">
+                    <% if(currentUser.role == 1) { %>
+                        <% include ../collaborations/collaboration.ejs %>
+                    <% } %>
+                </div>
+                <div id="showCollaborator">
+                    <% if(wiki.collaborations){ %>
+                        <% wiki.collaborations.forEach((collaboration) => { %>
+                            <%- include("../collaborations/show.ejs", {collaboration}) %>
+                        <% }) %>
+                    <% } %>
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </main>

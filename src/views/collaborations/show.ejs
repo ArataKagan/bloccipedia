@@ -1,0 +1,15 @@
+<% if(collaboration) { %>
+    <div style="width: 50%">
+        <p>
+            <%= collaboration.email %>
+        </p>
+        <% if(currentUser.role == 1 || currentUser.isAdmin()) { %>
+            <form style="display: initial"
+                action="/wikis/<%= wiki.id %>/collaborations/delete"
+                method="post">
+                <button type="submit" class="btn btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+        <% } %>
+        <hr>
+    </div>
+<% } %>

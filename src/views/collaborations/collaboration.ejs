@@ -1,0 +1,8 @@
+<form style="width:50%" action="/wikis/<% wiki.wikiId %>/collaborations/add" method="post">
+    <div class="form-group">
+        <label for="add">Add Collaborators</label>
+        <textarea class="form-control" name="email" aria-describedby="addHelp" placeholder="enter email of your future collaborators"></textarea>
+        <small class="text-muted" id="addHelp">collaborator must be registered and the email must be valid.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

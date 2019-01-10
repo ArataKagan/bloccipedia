@@ -25,6 +25,7 @@ describe("routes: collaboration", () => {
                     title: "Test wiki",
                     body: "This is test wiki please ignore",
                     
+
                 })
             })
         })
