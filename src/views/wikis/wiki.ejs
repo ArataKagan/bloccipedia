@@ -28,19 +28,15 @@
                             <% console.log(collaboration.User.email) %>
                         <% })%>
                     <% }) %>
-
-                    <% console.log(wikis[0].collaborations[0].User.email) %>
                     
-            <h2>Private Wikis</h2>
+        <h2>Private Wikis</h2>
                 <% wikis.forEach((wiki) => { %>
-                    <% wiki.collaborations.forEach((collaboration) => { %>
-                        <% if(wiki.private == true && wiki.userId == currentUser.id || currentUser.role == "2" || collaboration.wikiId == wiki.id){ %>
-                            <li class="list-group-item">
-                                <a href="/wikis/<%= wiki.id %>"><%- wiki.title %></a>
-                            </li>
-                        <% } %>
-                    <% }) %>
-                <% }) %>
+                    <% if(wiki.private == true && wiki.userId == currentUser.id || currentUser.role == "2"|| wiki.collaborations.forEach((collaboration) => {collaboration.wikiId == wiki.id})){ %>
+                        <li class="list-group-item">
+                            <a href="/wikis/<%= wiki.id %>"><%- wiki.title %></a>
+                        </li>
+                     <% } %>
+                <% })%>
                    
             </ul>
             
