@@ -3,16 +3,22 @@ const Wiki = require("./models").Wiki;
 const User = require("./models").User;
 module.exports = {
 
-addMember(req, newUserEmail, callback){
+addMember(wikiId, email, callback){
+    console.log("went inside of the query file.");
+    
     return User.findOne({
-        where: {email: newUserEmail}
+        where: {email: email}
     })
     .then((user) => {
+        console.log("User was found inside of query file");
+        console.log(user.id); 
+        console.log(wikiId);
         Collaboration.create({
-            wikiId: req.params.id,
+            wikiId: wikiId,
             userId: user.id
         })
         .then((collaboration) => {
+            console.log("collaboration created");
             callback(null, collaboration);
         })
         .catch((err) => {
@@ -24,9 +30,24 @@ addMember(req, newUserEmail, callback){
     });
 },
 
-deleteMember(req, )
-
-
+deleteMember(memberId, callback){
+    console.log("went inside of queries.collaboration");
+    console.log(memberId);
+    return Collaboration.findOne({
+        where: { userId: memberId }
+    })
+    .then((collaborator) => {
+        console.log("deleting collaborator is found and going to delete now.")
+        console.log(collaborator);
+        collaborator.destroy();
+        callback(null, collaborator);
+        console.log("record deleted");
+    })
+    .catch((err) => {
+        console.log("something went wrong");
+        callback(err);
+    }); 
+}
 
 
 }

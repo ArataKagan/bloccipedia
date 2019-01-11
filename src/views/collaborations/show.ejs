@@ -1,11 +1,13 @@
 <% if(collaboration) { %>
     <div style="width: 50%">
         <p>
-            <%= collaboration.email %>
+            <% console.log("Inside of show.ejs: ", collaboration.User.email) %>
+            <%= collaboration.User.email %>
         </p>
         <% if(currentUser.role == 1 || currentUser.isAdmin()) { %>
+            <% console.log(collaboration.User) %>
             <form style="display: initial"
-                action="/wikis/<%= wiki.id %>/collaborations/delete"
+                action="/wikis/<%= wiki.id %>/collaborations/<%= collaboration.User.id %>/destroy"
                 method="post">
                 <button type="submit" class="btn btn btn-sm btn-outline-danger">Delete</button>
             </form>

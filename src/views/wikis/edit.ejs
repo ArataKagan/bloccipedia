@@ -20,7 +20,10 @@
                     <textarea type="text" class="form-control" name="body" aria-describedby="bodyHelp" rows="3" placeholder="Enter Body"></textarea>
                     <small class="text-muted" id="bodyHelp">body must be 10 or more characters in length</small>
                 </div>
-                <div id="addCollaborator">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+            <div id="addCollaborator">
                     <% if(currentUser.role == 1) { %>
                         <% include ../collaborations/collaboration.ejs %>
                     <% } %>
@@ -32,7 +35,7 @@
                         <% }) %>
                     <% } %>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
         </main>
+        
+        </body>
 </html>

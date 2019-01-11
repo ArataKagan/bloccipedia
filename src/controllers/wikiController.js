@@ -86,6 +86,7 @@ module.exports = {
 
     update(req, res, next){
         wikiQueries.updateWiki(req, req.body, (err, wiki) => {
+            console.log("wiki is updated while adding new collaborator.");
             if(err || wiki == null){
                 res.redirect(401, `/wikis/${req.params.id}/edit`);
             } else {

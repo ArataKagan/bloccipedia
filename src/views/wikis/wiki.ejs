@@ -22,16 +22,18 @@
                         </li>
                         <% } %>
                     <% }) %>
-                    <% if(currentUser.role == "1" || currentUser.role == "2") { %>
-                        <h2>Private Wikis</h2>
-                    <% wikis.forEach((wiki) => { %>
-                            <% if(wiki.private == true && wiki.userId == currentUser.id || currentUser.role == "2" || wiki.collaborations.userId){ %>
-                                <li class="list-group-item">
-                                    <a href="/wikis/<%= wiki.id %>"><%- wiki.title %></a>
-                                </li>
-                            <% } %>
-                        <% }) %>
-                    <% } %>
+                    
+            <h2>Private Wikis</h2>
+                <% wikis.forEach((wiki) => { %>
+                    <% wiki.collaborations.forEach((collaboration) => { %>
+                        <% if(wiki.private == true && wiki.userId == currentUser.id || currentUser.role == "2" || collaboration.wikiId == wiki.id){ %>
+                            <li class="list-group-item">
+                                <a href="/wikis/<%= wiki.id %>"><%- wiki.title %></a>
+                            </li>
+                        <% } %>
+                    <% }) %>
+                <% }) %>
+                   
             </ul>
             
         </main>
