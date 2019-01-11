@@ -22,6 +22,14 @@
                         </li>
                         <% } %>
                     <% }) %>
+
+                    <% wikis.forEach((wiki) => { %>
+                        <% wiki.collaborations.forEach((collaboration) => { %>
+                            <% console.log(collaboration.User.email) %>
+                        <% })%>
+                    <% }) %>
+
+                    <% console.log(wikis[0].collaborations[0].User.email) %>
                     
             <h2>Private Wikis</h2>
                 <% wikis.forEach((wiki) => { %>
