@@ -1,7 +1,8 @@
 module.exports = class ApplicationPolicy {
-    constructor(user, record){
+    constructor(user, record, collabo){
         this.user = user;
         this.record = record;
+        this.collabo = collabo;
     }
 
     _isOwner(){
@@ -12,6 +13,14 @@ module.exports = class ApplicationPolicy {
         return this.user && this.user.role == 2;
     }
 
+    _isPremium(){
+        return this.user && this.user.role == 1;
+    }
+
+    _isCollabo(){
+        return this.collabo;
+    }
+
     new(){
         return this.user != null;
     }
@@ -20,13 +29,13 @@ module.exports = class ApplicationPolicy {
         return this.new();
     }
 
-    show(){
-        return true;
+    showPrivate(){
+        return this.record && (this._isPremium() || this._isAdmin() || this._isCollabo() );
     }
 
     edit(){
-        return this.new() && 
-            this.record && (this._isOwner() || this._isAdmin()); //user is allowed to create, the record is present and either owner or admin can edit
+        console.log("went inside of edit method in application");
+        return this.record && (this._isOwner() || this._isAdmin() || this._isCollabo()); 
     }
 
     update(){

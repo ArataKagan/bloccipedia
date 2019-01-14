@@ -47,7 +47,25 @@ deleteMember(memberId, callback){
         console.log("something went wrong");
         callback(err);
     }); 
-}
+},
 
+findCollaboMember(memberId, callback){
+    return Collaboration.findOne({
+        where: { userId: memberId }
+    })
+    .then((collaborator) => {
+        if(collaborator == null){
+            console.log("this member is not a collabo member");
+            callback(null, false);
+        } else {
+            console.log("this member is a collabo member");
+            callback(null, true);
+        }
+    })
+    .catch((err) => {
+        console.log("couldn't find the collabo member");
+        callback(err);
+    })
+}
 
 }

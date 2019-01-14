@@ -1,5 +1,6 @@
 const wikiQueries = require("../db/queries.wikis.js");
-const Authorizer = require("../policies/wiki");
+const collaborationQueries = require("../db/queries.collaborations.js");
+const Authorizer = require("../policies/application");
 const markdown = require("markdown").markdown;
 
 module.exports = {
@@ -11,6 +12,41 @@ module.exports = {
                 res.render("wikis/wiki", {wikis});
             }
         })
+    },
+
+    indexPrivate(req, res, next){
+        
+        wikiQueries.getAllPrivateWikis((err, wikis) => {
+            if(err){
+                res.redirect(500, "static/index");
+            } else {
+                //find if the person is a collabo member or not
+                function isCollabo(callback){
+                    collaborationQueries.findCollaboMember(req.user.id, (err, res) => {
+                        if(res == true){
+                            var collaboMember = req.user;
+                            //pass in the collaboMember to callback
+                            callback(null, collaboMember);
+                        } else {
+                            var nonCollaboMember = req.user;
+                            //pass in the nonCollaboMember to callback
+                            callback(nonCollaboMember, null);
+                        }
+                    });
+                }
+                
+                //evoke isCollabo function 
+                isCollabo((nonCollaboMember, collaboMember) => {
+                    const authorized = new Authorizer(nonCollaboMember, wikis, collaboMember).showPrivate();
+                    if(authorized){
+                        res.render("wikis/privateWiki", {wikis});
+                     } else {
+                        req.flash("notice", "You are not authorized to do that.");
+                        res.redirect("/wikis");
+                    }
+                 });      
+            }
+        })  
     },
 
     new(req, res, next){

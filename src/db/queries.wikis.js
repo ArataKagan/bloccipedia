@@ -1,11 +1,12 @@
 const Wiki = require("./models").Wiki;
 const Collaboration = require("./models").Collaboration;
 const User = require("./models").User;
-const Authorizer = require("../policies/wiki");
+const Authorizer = require("../policies/application");
 
 module.exports = {
     getAllWikis(callback){
         return Wiki.all({
+            where: {private: false},
             include: [
                 {model: Collaboration, as: "collaborations", include: [
                     {model: User }
@@ -18,6 +19,24 @@ module.exports = {
         .catch((err) => {
             callback(err);
         })
+    },
+
+    getAllPrivateWikis(callback){
+        return Wiki.all({
+            where: { private: true}, 
+            include: [
+                {model: Collaboration, as: "collaborations", include: [
+                    {model: User }
+                ]}
+            ]
+        })
+        .then((wikis) => {
+            callback(null, wikis);
+        })
+        .catch((err) => {
+            console.log("private wiki wasn't found");
+            callback(err);
+        })   
     },
 
     addWiki(newWiki, callback){

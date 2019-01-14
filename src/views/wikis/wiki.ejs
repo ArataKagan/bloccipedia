@@ -16,29 +16,13 @@
             
             <ul class="list-group">
                     <% wikis.forEach((wiki) => { %>
-                        <% if(wiki.private == false){ %>
                         <li class="list-group-item">
                             <a href="/wikis/<%= wiki.id %>"><%- wiki.title %></a>
                         </li>
-                        <% } %>
                     <% }) %>
-
-                    <% wikis.forEach((wiki) => { %>
-                        <% wiki.collaborations.forEach((collaboration) => { %>
-                            <% console.log(collaboration.User.email) %>
-                        <% })%>
-                    <% }) %>
-                    
-        <h2>Private Wikis</h2>
-                <% wikis.forEach((wiki) => { %>
-                    <% if(wiki.private == true && wiki.userId == currentUser.id || currentUser.role == "2"|| wiki.collaborations.forEach((collaboration) => {collaboration.wikiId == wiki.id})){ %>
-                        <li class="list-group-item">
-                            <a href="/wikis/<%= wiki.id %>"><%- wiki.title %></a>
-                        </li>
-                     <% } %>
-                <% })%>
-                   
             </ul>
+            <hr>
+            <a href="/wikis/private" class="btn btn-outline-warning" role="button">Private Wikis</a>
             
         </main>
     </body>
