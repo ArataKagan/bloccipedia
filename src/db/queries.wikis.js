@@ -3,6 +3,7 @@ const Collaboration = require("./models").Collaboration;
 const User = require("./models").User;
 const Authorizer = require("../policies/application");
 
+
 module.exports = {
     getAllWikis(callback){
         return Wiki.all({
@@ -35,6 +36,7 @@ module.exports = {
         })
         .catch((err) => {
             console.log("private wiki wasn't found");
+            console.log(err);
             callback(err);
         })   
     },
@@ -99,22 +101,16 @@ module.exports = {
                 return callback("Wiki not found");
             }
 
-            const authorized = new Authorizer(req.user, wiki).update();
-
-            if(authorized){
-                wiki.update(updatedWiki, {
-                    fields: Object.keys(updatedWiki)
-                })
-                .then(() => {
-                    callback(null, wiki);
-                })
-                .catch((err) => {
-                    callback(err);
-                });
-            } else {
-                req.flash("notice", "You are not authorized to do that.");
-                callback("Forbidden");
-            }
+            wiki.update(updatedWiki, {
+                fields: Object.keys(updatedWiki)
+            })
+            .then(() => {
+                callback(null, wiki);
+            })
+            .catch((err) => {
+                callback(err);
+            });
+          
         });
     }
 }

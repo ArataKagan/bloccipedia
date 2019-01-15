@@ -34,8 +34,7 @@ module.exports = class ApplicationPolicy {
     }
 
     edit(){
-        console.log("went inside of edit method in application");
-        return this.record && (this._isOwner() || this._isAdmin() || this._isCollabo()); 
+        return this.record && (this._isPremium() || this._isAdmin() || this._isCollabo() );
     }
 
     update(){
