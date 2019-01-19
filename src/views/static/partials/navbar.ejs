@@ -10,12 +10,27 @@
                 <a class="nav-link" href="/">Home</a>
               </li>
               <% if(currentUser) { %>
+                <% if(currentUser.role == "1" || currentUser.role == "2") { %>
                 <li class="nav-item">
                   <a class="nav-link" href="/users/sign_out">Sign out</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/wikis">Wiki list</a>
-                </li>
+                </li>  
+                <li class="nav-item">
+                  <a class="nav-link" href="/wikis/private">Private Wiki list</a>
+                </li>  
+                <% } else { %> 
+                  <li class="nav-item">
+                    <a class="nav-link" id = "upgrade" href="/users/<%= currentUser.id %>/upgrade">Upgrade</a>
+                  </li>  
+                  <li class="nav-item">
+                      <a class="nav-link" href="/users/sign_out">Sign out</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/wikis">Wiki list</a>
+                    </li> 
+                <% } %>    
               <% } else { %>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/sign_up">Sign up</a>
