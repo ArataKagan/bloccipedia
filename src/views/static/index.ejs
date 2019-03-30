@@ -4,16 +4,37 @@
         <% include ../static/partials/head.ejs %>
     </head>
     <body>
-        <% include  ../static/partials/navbar.ejs %>
-        <main class="container">
-            <header class="jumbotron my-4">
-                <h1 class="display-3">Welcome to Blocipedia</h1>
-                <p class="lead">Create your own Wikipedia</p>
-                <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign up</a>
-            </header>
-        </main>
+        <div id="index">
+            <% include  ../static/partials/navbar.ejs %>
+            <main class="container">
 
-        <% include ../static/partials/baseScripts.ejs %>
+                <header >
+                    <h1 >Theme Park Now</h1>
+                    <p >Create your own theme park post</p>
+                </header>
+
+                <div class="row">
+                    <div class="col-sm-4" style="padding-top: 25px;">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="text-align: center;">Free Plan</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="padding-top: 25px;">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="text-align: center;">Premium Plan</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </main>
+
+            <% include ../static/partials/baseScripts.ejs %>
+        </div>
     </body>
 
 </html>

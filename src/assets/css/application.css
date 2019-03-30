@@ -5,3 +5,16 @@ body {
 #upgrade {
   color: orange;
 }
+
+#index {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  position: relative;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+}
